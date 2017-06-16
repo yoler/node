@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>test</title>
+	<link rel="stylesheet" href="css.css">
+	<script src="https://unpkg.com/vue"></script>
+</head>
+<body>
+<div id="app">
+	<ul>
+		<li v-for="product in products">
+			<p>品牌：{{product.name}} 价格： {{product.price}}</p>
+		</li>
+	</ul>
+</div>
+</body>
+<script>
+	const vm = new Vue({
+		el: '#app',
+		data: {
+			products: []
+		},
+		mounted () {
+			let xhr = new XMLHttpRequest()
+			xhr.onload = () => {
+				this.products = xhr.response.products
+			}
+			xhr.open('GET', 'http://localhost:3000/api/products')
+			xhr.responseType = 'json'
+			xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest')
+			xhr.setRequestHeader('Content-Type', 'application/json')
+			xhr.send()
+
+		}
+	})
+
+</script>
+</html>
